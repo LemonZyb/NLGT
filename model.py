@@ -20,7 +20,7 @@ class PatchEmbed(nn.Module):
 
 class Attention(nn.Module):
     def __init__(self,
-                 dim,   # 输入token的dim
+                 dim,
                  num_heads=8,
                  qkv_bias=False,
                  qk_scale=None,
@@ -115,7 +115,7 @@ class Block(nn.Module):
         return x, adj_mask
 
 
-class VisionTransformer(nn.Module):
+class NlgtEncoder(nn.Module):
     def __init__(self, in_c=128, num_classes=40, embed_dim=256, depth=6,
                  num_heads=8, mlp_ratio=2.0, qkv_bias=True, qk_scale=None,
                  representation_size=None, distilled=False, drop_ratio=0.,
@@ -205,15 +205,15 @@ def _init_vit_weights(m):
         nn.init.ones_(m.weight)
 
 
-def V_Model(emb_dim=256, in_c=256, num_class=40, depth=4, num_heads=8):
-    model = VisionTransformer(in_c=in_c,
-                              drop_ratio=0.1,
-                              mlp_ratio=4.0,
-                              embed_dim=emb_dim,
-                              depth=depth,
-                              num_heads=num_heads,
-                              representation_size=None,
-                              num_classes=num_class)
+def NLGT(emb_dim=256, in_c=256, num_class=40, depth=4, num_heads=8):
+    model = NlgtEncoder(  in_c=in_c,
+                          drop_ratio=0.1,
+                          mlp_ratio=4.0,
+                          embed_dim=emb_dim,
+                          depth=depth,
+                          num_heads=num_heads,
+                          representation_size=None,
+                          num_classes=num_class)
     return model
 
 

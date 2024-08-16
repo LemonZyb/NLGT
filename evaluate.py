@@ -5,7 +5,7 @@ import pandas as pd
 import torch.nn.functional as F
 
 from tqdm import tqdm
-from model import V_Model
+from model import NLGT
 from config import valid_idx_pth, test_idx_pth
 from torch.utils.data import Dataset, DataLoader
 
@@ -17,7 +17,7 @@ def label_transform(idx):
     return torch.eye(node_labels_num)[idx]
 
 class ValidDataset(Dataset):
-    def __init__(self, file_path="/home/zhouyibo/V-Graph/test_graph_10_5_2/", max_node_num=168):
+    def __init__(self, file_path="./test_graph_10_5_2/", max_node_num=168):
         self.sub_graphs = glob.glob(file_path+"*.pt")
         self.max_node_num = max_node_num
         self.adj_matrix = torch.zeros((self.max_node_num, self.max_node_num))
@@ -45,7 +45,7 @@ class ValidDataset(Dataset):
 
 
 device = "cuda:0"
-model = V_Model(emb_dim=128, num_class=40, in_c=128, depth=4, num_heads=2).to(device)
+model = NLGT(emb_dim=128, num_class=40, in_c=128, depth=4, num_heads=2).to(device)
 model.load_state_dict(torch.load("./weights/model.pth"))
 valid_dataset = ValidDataset()
 valid_loader = torch.utils.data.DataLoader(valid_dataset, batch_size=32, shuffle=False)

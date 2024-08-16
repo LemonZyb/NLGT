@@ -9,7 +9,7 @@ import torch.optim.lr_scheduler as lr_scheduler
 
 from tqdm import tqdm
 from dataset import CustomDataset, ValidDataset, TestDataset
-from model import V_Model
+from model import NLGT
 
 
 def train_one_epoch(model, optimizer, data_loader, device, epoch):
@@ -107,7 +107,7 @@ def main(args):
 
 
 
-    model = V_Model(emb_dim=128, num_class=40, in_c=168, depth=4, num_heads=2).to(device)
+    model = NLGT(emb_dim=128, num_class=40, in_c=168, depth=4, num_heads=2).to(device)
 
     if args.weights != "":
         assert os.path.exists(args.weights), "weights file: '{}' not exist.".format(args.weights)
@@ -160,12 +160,6 @@ if __name__ == '__main__':
     parser.add_argument('--batch-size', type=int, default=64)
     parser.add_argument('--lr', type=float, default=0.001)
     parser.add_argument('--lrf', type=float, default=0.01)
-
-    # 数据集所在根目录
-    # https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz
-    # parser.add_argument('--data-path', type=str,
-    #                     default="/data/flower_photos")
-    # 预训练权重路径，如果不想载入就设置为空字符
     parser.add_argument('--weights', type=str, default='',
                         help='initial weights path')
 
