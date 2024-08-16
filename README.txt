@@ -5,7 +5,7 @@ unzip arxiv.zip
 # setup the environment
 conda create -n NLGT python=3.10
 conda activate NLGT
-pip install -r requirements 
+pip install -r requirements.txt
 
 # Hierarchical Neighborhood Sampling for each node
 python sampling.py
